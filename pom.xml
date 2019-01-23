@@ -55,6 +55,25 @@
             <version>${elasticsearch.version}</version>
         </dependency>
 
+        <!-- ES基于地理位置搜索的依赖 -->
+        <dependency>
+            <groupId>org.locationtech.spatial4j</groupId>
+            <artifactId>spatial4j</artifactId>
+            <version>0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vividsolutions</groupId>
+            <artifactId>jts</artifactId>
+            <version>1.13</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- commons -->
         <dependency>
             <groupId>org.apache.commons</groupId>

@@ -4,6 +4,7 @@ import com.demo.elasticsearch.model.PageVO;
 import com.demo.elasticsearch.util.ElasticsearchUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.search.sort.SortOrder;
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -40,7 +43,7 @@ public class AppTests {
     public void createDocumentWithId(){
         try {
             // 创建数据
-            XContentBuilder xContentBuilder = XContentFactory.jsonBuilder()
+            XContentBuilder xContentBuilder = jsonBuilder()
                     .startObject()
                     .field("name", "zhangsan")
                     .field("age", 18)
@@ -57,7 +60,7 @@ public class AppTests {
     public void createDocumentWithNoId(){
         try {
             // 创建数据
-            XContentBuilder xContentBuilder = XContentFactory.jsonBuilder()
+            XContentBuilder xContentBuilder = jsonBuilder()
                     .startObject()
                     .field("name", "lisi")
                     .field("age", 30)
@@ -74,7 +77,7 @@ public class AppTests {
     public void updateDocument(){
         try {
             // 创建数据
-            XContentBuilder xContentBuilder = XContentFactory.jsonBuilder()
+            XContentBuilder xContentBuilder = jsonBuilder()
                     .startObject()
                     .field("date", "2013-02-02")
                     .endObject();
@@ -130,5 +133,16 @@ public class AppTests {
                 log.info("field:{}, value:{}", entry.getKey(), entry.getValue());
             }
         }
+    }
+
+
+    @Test
+    public void test() throws IOException {
+        UpdateRequest updateRequest = new UpdateRequest("car_shop", "cars", "1")
+                .doc(jsonBuilder()
+                        .startObject()
+                        .field("price", 310000)
+                        .endObject())
+                .upsert();
     }
 }
